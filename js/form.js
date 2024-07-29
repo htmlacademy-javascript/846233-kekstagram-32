@@ -1,5 +1,7 @@
+// form.js
 import { resetScale } from './scale.js';
 import { resetEffects } from './effect.js';
+import { showSuccessMessage, showErrorMessage } from './message.js';
 
 const form = document.querySelector('.img-upload__form');
 const overlay = document.querySelector('.img-upload__overlay');
@@ -12,16 +14,16 @@ const submitButton = form.querySelector('.img-upload__submit');
 const photoPreview = document.querySelector('.img-upload__preview img');
 const effectsPreviews = document.querySelectorAll('.effects__preview');
 
-
 const MAX_HASHTAG_COUNT = 5;
 const MIN_HASHTAG_LENGTH = 2;
 const MAX_HASHTAG_LENGTH = 20;
+const MAX_COMMENT_LENGTH = 140;
 const UNVALID_SYMBOLS = /[^a-zA-Z0-9а-яА-ЯёЁ]/g;
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
-  errorTextParent: 'img-upload__wrapper',
+  errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__error',
 });
 
@@ -114,6 +116,12 @@ pristine.addValidator(
   'Неправильно заполнены хэштеги',
 );
 
+pristine.addValidator(
+  commentField,
+  (value) => value.length <= MAX_COMMENT_LENGTH,
+  'Комментарий не должен превышать 140 символов',
+);
+
 const setOnFormSubmit = (cb) => {
   form.addEventListener('submit', async (evt) => {
     evt.preventDefault();
@@ -121,8 +129,15 @@ const setOnFormSubmit = (cb) => {
 
     if (isValid) {
       blockSubmitButton();
-      await cb(new FormData(form));
-      unblockSubmitButton();
+      try {
+        await cb(new FormData(form));
+        showSuccessMessage();
+        hideModal();
+      } catch (error) {
+        showErrorMessage();
+      } finally {
+        unblockSubmitButton();
+      }
     }
   });
 };

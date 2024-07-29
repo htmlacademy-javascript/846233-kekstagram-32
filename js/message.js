@@ -1,52 +1,60 @@
-const successMessage = document
-  .querySelector('#success')
-  .content.querySelector('.success');
-const errorMessage = document
-  .querySelector('#error')
-  .content.querySelector('.error');
-const body = document.querySelector('body');
+// message.js
 
+// Получаем шаблоны сообщений
+const successTemplate = document.querySelector('#success').content.querySelector('.success');
+const errorTemplate = document.querySelector('#error').content.querySelector('.error');
+
+// Функция для отображения сообщения
+const showMessage = (template, onClose) => {
+  const messageElement = template.cloneNode(true);
+  document.body.append(messageElement);
+
+  // Функция для удаления сообщения
+  const removeMessage = () => {
+    messageElement.remove();
+    if (onClose) {
+      onClose();
+    }
+  };
+
+  // Обработчик нажатия клавиши Esc для закрытия сообщения
+  const onMessageEscKeyDown = (evt) => {
+    if (evt.key === 'Escape') {
+      evt.preventDefault();
+      removeMessage();
+    }
+  };
+
+  // Обработчик клика вне сообщения для закрытия
+  const onMessageOutsideClick = (evt) => {
+    if (!evt.target.closest('.success__inner') && !evt.target.closest('.error__inner')) {
+      removeMessage();
+    }
+  };
+
+  // Добавляем обработчики событий
+  messageElement.querySelector('.success__button, .error__button').addEventListener('click', removeMessage);
+  document.addEventListener('keydown', onMessageEscKeyDown);
+  document.addEventListener('click', onMessageOutsideClick);
+
+  // Удаляем обработчики событий при закрытии
+  const cleanup = () => {
+    document.removeEventListener('keydown', onMessageEscKeyDown);
+    document.removeEventListener('click', onMessageOutsideClick);
+  };
+
+  // Используем колбэк-функцию, чтобы обеспечить очистку
+  messageElement.addEventListener('transitionend', cleanup);
+};
+
+// Функция для отображения сообщения об успешной отправке
 const showSuccessMessage = () => {
-  body.append(successMessage);
-  body.addEventListener('keydown', onEscDown);
-  body.addEventListener('click', onBodyClick);
-  successMessage
-    .querySelector('.success__button')
-    .addEventListener('click', hideMessage);
+  showMessage(successTemplate);
 };
 
+// Функция для отображения сообщения об ошибке
 const showErrorMessage = () => {
-  body.append(errorMessage);
-  body.addEventListener('keydown', onEscDown);
-  errorMessage
-    .querySelector('.error__button')
-    .addEventListener('click', hideMessage);
+  showMessage(errorTemplate);
 };
-
-function hideMessage() {
-  const messageElement =
-    document.querySelector('.success') || document.querySelector('.error');
-  messageElement.remove();
-  body.removeEventListener('keydown', onEscDown);
-  body.removeEventListener('click', onBodyClick);
-}
-
-function onBodyClick(evt) {
-  if (
-    evt.target.closest('.success__inner') ||
-    evt.target.closest('.error__inner')
-  ) {
-    return;
-  }
-  hideMessage();
-}
-
-function onEscDown(evt) {
-  if (evt.key === 'Escape') {
-    evt.preventDefault();
-    evt.stopPropagation();
-    hideMessage();
-  }
-}
 
 export { showSuccessMessage, showErrorMessage };

@@ -1,5 +1,6 @@
 const bigPicture = document.querySelector('.big-picture');
-const commentCount = document.querySelector('.social__comment-count');
+const commentCountShown = document.querySelector('.social__comment-shown-count');
+const commentCountTotal = document.querySelector('.social__comment-total-count');
 const commentList = document.querySelector('.social__comments');
 const commentsLoader = document.querySelector('.comments-loader');
 const body = document.querySelector('body');
@@ -40,7 +41,8 @@ const renderComments = () => {
 
   commentList.innerHTML = '';
   commentList.append(fragment);
-  commentCount.innerHTML = `${commentsShown} из <span class="comments-count">${comments.length}</span> комментариев`;
+  commentCountShown.textContent = commentsShown;
+  commentCountTotal.textContent = comments.length;
 };
 
 const hideBigPicture = () => {

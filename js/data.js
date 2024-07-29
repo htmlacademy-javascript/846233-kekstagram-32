@@ -1,6 +1,6 @@
 import { getRandomInteger, getRandomElement } from './util.js';
 
-const COMMENTS = [
+const comments = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -9,7 +9,7 @@ const COMMENTS = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
 ];
 
-const DESCRIPTIONS = [
+const description = [
   'Закат над океаном, золотистое солнце прячется за горизонт, оставляя небо окрашенным в розовые и оранжевые тона. #Закат #Океан #Природа #Романтика',
   'Симпатичный котенок, свернувшийся калачиком на пушистом ковре, наслаждается дневным сном. #Котенок #ДомашниеЖивотные #Милота #Сон',
   'Густой лес в тумане, деревья таинственно скрываются в дымке, создавая атмосферу мистики. #Лес #Туман #Природа #Мистика',
@@ -22,25 +22,25 @@ const DESCRIPTIONS = [
   'Величественные горы, покрытые снегом, под ярким солнцем на фоне кристально голубого неба. #Горы #Зима #Снег #Пейзаж',
 ];
 
-const NAMES = ['Евгений', 'Роман', 'Иван', 'Алишер', 'Марк', 'Максим'];
+const names = ['Евгений', 'Роман', 'Иван', 'Алишер', 'Марк', 'Максим'];
 
 
 const createMessage = () =>
   Array.from({ length: getRandomInteger(1, 2) }, () =>
-    getRandomElement(COMMENTS)
+    getRandomElement(comments)
   ).join(' ');
 
 const createComment = (index) => ({
   id: index,
   avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
   message: createMessage(),
-  name: getRandomElement(NAMES)
+  name: getRandomElement(names)
 });
 
 const createPicture = (index) => ({
   id: index,
   url: `photos/${index}.jpg`,
-  description: getRandomElement(DESCRIPTIONS),
+  description: getRandomElement(description),
   likes: getRandomInteger(15, 200),
   comments: Array.from(
     { length: getRandomInteger(0, 6) },
