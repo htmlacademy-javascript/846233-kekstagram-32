@@ -1,4 +1,3 @@
-// form.js
 import { resetScale } from './scale.js';
 import { resetEffects } from './effect.js';
 import { showSuccessMessage, showErrorMessage } from './message.js';
