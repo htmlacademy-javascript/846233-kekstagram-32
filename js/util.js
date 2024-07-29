@@ -31,10 +31,19 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
 
 export {
   getRandomInteger,
   checkStringLength,
   getRandomElement,
-  showAlert
+  showAlert,
+  debounce
 };
