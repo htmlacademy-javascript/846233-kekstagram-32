@@ -2,6 +2,7 @@ import { resetScale } from './scale.js';
 import { resetEffects } from './effect.js';
 import { showSuccessMessage, showErrorMessage } from './message.js';
 
+// DOM элементы
 const form = document.querySelector('.img-upload__form');
 const overlay = document.querySelector('.img-upload__overlay');
 const body = document.querySelector('body');
@@ -13,6 +14,7 @@ const submitButton = form.querySelector('.img-upload__submit');
 const photoPreview = document.querySelector('.img-upload__preview img');
 const effectsPreviews = document.querySelectorAll('.effects__preview');
 
+// Константы
 const MAX_HASHTAG_COUNT = 5;
 const MIN_HASHTAG_LENGTH = 2;
 const MAX_HASHTAG_LENGTH = 20;
@@ -20,12 +22,25 @@ const MAX_COMMENT_LENGTH = 140;
 const UNVALID_SYMBOLS = /[^a-zA-Z0-9а-яА-ЯёЁ]/g;
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
+const HASHTAG_ERRORS = {
+  INVALID: 'Хэштег не соответствует требованиям!',
+  QUANTITY: 'Превышено количество хэштегов!',
+  REPEATING: 'Хэштеги не должны повторяться!',
+};
+
+const COMMENTS_ERRORS = {
+  LENGTH: 'Длина комментария не должна быть больше 140 символов!'
+};
+
+// Настройка Pristine
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
+  errorClass: 'img-upload__field-wrapper--error',
   errorTextParent: 'img-upload__field-wrapper',
-  errorTextClass: 'img-upload__error',
+  errorTextTag: 'div'
 });
 
+// Функции
 const showModal = () => {
   overlay.classList.remove('hidden');
   body.classList.add('modal-open');
@@ -74,30 +89,36 @@ const onFileInputChange = () => {
   showModal();
 };
 
+// Валидация хэштегов
 const startsWithHash = (string) => string[0] === '#';
-
-const hasValidLength = (string) =>
-  string.length >= MIN_HASHTAG_LENGTH && string.length <= MAX_HASHTAG_LENGTH;
-
+const hasValidLength = (string) => string.length >= MIN_HASHTAG_LENGTH && string.length <= MAX_HASHTAG_LENGTH;
 const hasValidSymbols = (string) => !UNVALID_SYMBOLS.test(string.slice(1));
+const isValidTag = (tag) => startsWithHash(tag) && hasValidLength(tag) && hasValidSymbols(tag);
 
-const isValidTag = (tag) =>
-  startsWithHash(tag) && hasValidLength(tag) && hasValidSymbols(tag);
+const getHashtags = (value) => value.trim().toLowerCase().split(' ').filter((tag) => tag.length > 0);
 
-const hasValidCount = (tags) => tags.length <= MAX_HASHTAG_COUNT;
-
-const hasUniqueTags = (tags) => {
-  const lowerCaseTags = tags.map((tag) => tag.toLowerCase());
-  return lowerCaseTags.length === new Set(lowerCaseTags).size;
+const validateHashtagInvalid = (value) => {
+  const hashtags = getHashtags(value);
+  return hashtags.every((hashtag) => isValidTag(hashtag));
 };
 
-const validateTags = (value) => {
-  const tags = value
-    .trim()
-    .split(' ')
-    .filter((tag) => tag.trim().length);
-  return hasValidCount(tags) && hasUniqueTags(tags) && tags.every(isValidTag);
+const validateHashtagRepeating = (value) => {
+  const hashtags = getHashtags(value);
+  return new Set(hashtags).size === hashtags.length;
 };
+
+const validateHashtagLength = (value) => {
+  const hashtags = getHashtags(value);
+  return hashtags.length <= MAX_HASHTAG_COUNT;
+};
+
+const validateCommentLength = (value) => value.length <= MAX_COMMENT_LENGTH;
+
+// Добавляем валидаторы
+pristine.addValidator(hashtagField, validateHashtagInvalid, HASHTAG_ERRORS.INVALID);
+pristine.addValidator(hashtagField, validateHashtagRepeating, HASHTAG_ERRORS.REPEATING);
+pristine.addValidator(hashtagField, validateHashtagLength, HASHTAG_ERRORS.QUANTITY);
+pristine.addValidator(commentField, validateCommentLength, COMMENTS_ERRORS.LENGTH);
 
 const blockSubmitButton = () => {
   submitButton.disabled = true;
@@ -108,18 +129,6 @@ const unblockSubmitButton = () => {
   submitButton.disabled = false;
   submitButton.textContent = 'Опубликовать';
 };
-
-pristine.addValidator(
-  hashtagField,
-  validateTags,
-  'Неправильно заполнены хэштеги',
-);
-
-pristine.addValidator(
-  commentField,
-  (value) => value.length <= MAX_COMMENT_LENGTH,
-  'Комментарий не должен превышать 140 символов',
-);
 
 const setOnFormSubmit = (cb) => {
   form.addEventListener('submit', async (evt) => {
@@ -141,6 +150,7 @@ const setOnFormSubmit = (cb) => {
   });
 };
 
+// События
 fileField.addEventListener('change', onFileInputChange);
 cancelButton.addEventListener('click', onCancelButtonClick);
 
