@@ -72,19 +72,24 @@ const updateSlider = () => {
   }
 };
 
+const resetImageEffects = () => {
+  image.style.filter = 'none';
+  image.className = '';
+  effectLevel.value = '';
+};
+
 const onFormChange = (evt) => {
   if (!evt.target.classList.contains('effects__radio')) {
     return;
   }
   chosenEffect = EFFECTS.find((effect) => effect.name === evt.target.value);
+  resetImageEffects();
   updateSlider();
 };
 
 const onSliderUpdate = () => {
-  image.style.filter = 'none';
-  image.className = '';
-  effectLevel.value = '';
   if (isDefault()) {
+    resetImageEffects();
     return;
   }
   const sliderValue = sliderElement.noUiSlider.get();
@@ -95,6 +100,7 @@ const onSliderUpdate = () => {
 
 const resetEffects = () => {
   chosenEffect = DEFAULT_EFFECT;
+  resetImageEffects();
   updateSlider();
 };
 
