@@ -19,7 +19,7 @@ const MAX_HASHTAG_COUNT = 5;
 const MIN_HASHTAG_LENGTH = 2;
 const MAX_HASHTAG_LENGTH = 20;
 const MAX_COMMENT_LENGTH = 140;
-const UNVALID_SYMBOLS = /[^a-zA-Z0-9а-яА-ЯёЁ]/g;
+const VALID_SYMBOLS = /^[a-zA-Z0-9а-яА-ЯёЁ]+$/;
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 const HASHTAG_ERRORS = {
@@ -29,15 +29,17 @@ const HASHTAG_ERRORS = {
 };
 
 const COMMENTS_ERRORS = {
-  LENGTH: 'Длина комментария не должна быть больше 140 символов!'
+  LENGTH: 'Длина комментария не должна быть больше 140 символов!',
 };
 
 // Настройка Pristine
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
   errorClass: 'img-upload__field-wrapper--error',
+  successClass: 'img-upload__field-wrapper--success',
   errorTextParent: 'img-upload__field-wrapper',
-  errorTextTag: 'div'
+  errorTextTag: 'div',
+  errorTextClass: 'pristine-error'
 });
 
 // Функции
@@ -92,10 +94,10 @@ const onFileInputChange = () => {
 // Валидация хэштегов
 const startsWithHash = (string) => string[0] === '#';
 const hasValidLength = (string) => string.length >= MIN_HASHTAG_LENGTH && string.length <= MAX_HASHTAG_LENGTH;
-const hasValidSymbols = (string) => !UNVALID_SYMBOLS.test(string.slice(1));
+const hasValidSymbols = (string) => VALID_SYMBOLS.test(string.slice(1));
 const isValidTag = (tag) => startsWithHash(tag) && hasValidLength(tag) && hasValidSymbols(tag);
 
-const getHashtags = (value) => value.trim().toLowerCase().split(' ').filter((tag) => tag.length > 0);
+const getHashtags = (value) => value.trim().toLowerCase().split(/\s+/).filter((tag) => tag.length > 0);
 
 const validateHashtagInvalid = (value) => {
   const hashtags = getHashtags(value);
@@ -104,7 +106,7 @@ const validateHashtagInvalid = (value) => {
 
 const validateHashtagRepeating = (value) => {
   const hashtags = getHashtags(value);
-  return new Set(hashtags).size === hashtags.length;
+  return hashtags.length === new Set(hashtags).size;
 };
 
 const validateHashtagLength = (value) => {
@@ -112,7 +114,7 @@ const validateHashtagLength = (value) => {
   return hashtags.length <= MAX_HASHTAG_COUNT;
 };
 
-const validateCommentLength = (value) => value.length <= MAX_COMMENT_LENGTH;
+const validateCommentLength = (value) => value.trim().length <= MAX_COMMENT_LENGTH;
 
 // Добавляем валидаторы
 pristine.addValidator(hashtagField, validateHashtagInvalid, HASHTAG_ERRORS.INVALID);

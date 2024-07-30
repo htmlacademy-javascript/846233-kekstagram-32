@@ -87,15 +87,21 @@ const onFormChange = (evt) => {
   updateSlider();
 };
 
+const formatSliderValue = (value) => {
+  const numValue = parseFloat(value);
+  return numValue % 1 === 0 ? numValue.toFixed(0) : numValue.toFixed(1);
+};
+
 const onSliderUpdate = () => {
   if (isDefault()) {
     resetImageEffects();
     return;
   }
   const sliderValue = sliderElement.noUiSlider.get();
-  image.style.filter = `${chosenEffect.style}(${sliderValue}${chosenEffect.unit})`;
+  const formattedSliderValue = formatSliderValue(sliderValue);
+  image.style.filter = `${chosenEffect.style}(${formattedSliderValue}${chosenEffect.unit})`;
   image.classList.add(`effects__preview--${chosenEffect.name}`);
-  effectLevel.value = sliderValue;
+  effectLevel.value = formattedSliderValue;
 };
 
 const resetEffects = () => {
