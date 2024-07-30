@@ -1,9 +1,14 @@
 const showError = (message) => {
-  const errorTemplate = document.querySelector('#data-error').content.querySelector('.error');
+  // Находим шаблон сообщения об ошибке
+  const errorTemplate = document.querySelector('#data-error').content.querySelector('.data-error');
+  // Создаем элемент сообщения из шаблона
   const errorElement = errorTemplate.cloneNode(true);
-  errorElement.querySelector('.error__title').textContent = message;
+  // Устанавливаем текст сообщения
+  errorElement.querySelector('.data-error__title').textContent = message;
+  // Добавляем сообщение в body
   document.body.append(errorElement);
 
+  // Удаляем сообщение через 5 секунд
   setTimeout(() => {
     errorElement.remove();
   }, 5000);
