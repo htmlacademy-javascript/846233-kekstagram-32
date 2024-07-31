@@ -1,8 +1,8 @@
+const COMMENT_SHOW_STEP = 5;
+
 const loadMoreCommentsButton = document.querySelector('.social__comments-loader');
 const commentsShowCount = document.querySelector('.social__comment-shown-count');
 const commentTotalCount = document.querySelector('.social__comment-total-count');
-
-const COMMENT_SHOW_STEP = 5;
 
 function addLoadMoreCommentsEvent() {
   loadMoreCommentsButton.addEventListener('click', onLoadMoreCommentsButton);

@@ -1,11 +1,11 @@
+const SCALE_STEP = 25;
+const MIN_SCALE = 25;
+const MAX_SCALE = 100;
+
 const reducSizeButton = document.querySelector('.scale__control--smaller');
 const increaseSizeButton = document.querySelector('.scale__control--bigger');
 const imageScaleInputValue = document.querySelector('input.scale__control--value');
 const previewImage = document.querySelector('.img-upload__preview img');
-
-const SCALE_STEP = 25;
-const MIN_SCALE = 25;
-const MAX_SCALE = 100;
 
 function onReducSizeButton() {
   if (imageScaleInputValue.value === `${MIN_SCALE}%`) {

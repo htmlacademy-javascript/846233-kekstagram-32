@@ -5,6 +5,9 @@ import { addEventOnScaleButton, removeEventOnScaleButton } from './edit-scale-im
 import { openSuccessSendDataMessage, openErrorSendDataMessage } from './messages.js';
 import { removeOnEffectButtonEvent, addOnEffectButtonEvent } from './edit-effect-image.js';
 
+const DEFAULT_IMAGE_SCALE = 100;
+const FILE_TYPES = ['.jpg', '.jpeg', '.png', '.gif', '.jfif'];
+
 const usersImagesUploadForm = document.querySelector('.img-upload__form');
 const imageUploadBlock = usersImagesUploadForm.querySelector('.img-upload__overlay');
 const imageUploadButton = usersImagesUploadForm.querySelector('.img-upload__input');
@@ -18,17 +21,13 @@ const usersImagePreviews = usersImagesUploadForm.querySelector('.img-upload__pre
 const scaleImageValue = usersImagesUploadForm.querySelector('.scale__control--value');
 const closeFormButton = usersImagesUploadForm.querySelector('.img-upload__cancel');
 
-const FILE_TYPES = ['.jpg', '.jpeg', '.png', '.gif', '.jfif'];
-
-const DEFAULT_IMAGE_SCALE = 100;
-
 function onSubmitForm(evt) {
   evt.preventDefault();
 
   const isHashtagsInputValid = pristine.validate(hashtagsInput);
   const isDescriptionInputValid = pristine.validate(descriptionInput);
 
-  if(isHashtagsInputValid && isDescriptionInputValid) {
+  if (isHashtagsInputValid && isDescriptionInputValid) {
     blockSubmitButton();
     const formData = new FormData(evt.target);
     sendData(formData)
@@ -92,7 +91,7 @@ function loadUsersImage() {
 }
 
 function onEscKeydown(evt) {
-  if(isEscapeKey(evt)){
+  if (isEscapeKey(evt)) {
     if (evt.target === hashtagsInput || evt.target === descriptionInput) {
       return;
     }
@@ -122,7 +121,7 @@ function formReset() {
 function resetEffectButton(effectsInput, effectImage) {
   effectsInput[0].checked = true;
   effectImage[0].style.backgroundImage = '';
-  for(let i = 1; effectsInput.length > i; i++){
+  for (let i = 1; effectsInput.length > i; i++) {
     effectsInput[i].checked = false;
     effectImage[i].style.backgroundImage = '';
   }
@@ -138,10 +137,10 @@ function unlockSubmitButton() {
   submitButton.textContent = 'Опубликовать';
 }
 
-function addEventOnSubmitForm() {
-  usersImagesUploadForm.addEventListener('change', onImageUploadButton);
+function addEventOnImageUploadButton() {
+  imageUploadButton.addEventListener('change', onImageUploadButton);
 }
 
-addEventOnSubmitForm();
+addEventOnImageUploadButton();
 
-export {addEventOnSubmitForm, onEscKeydown};
+export { addEventOnImageUploadButton, onEscKeydown };

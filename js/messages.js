@@ -1,6 +1,8 @@
 import { isEscapeKey } from './util.js';
 import { onEscKeydown } from './form.js';
 
+const ERROR_MODAL_TIME = 5000;
+
 const templateDataError = document.querySelector('#data-error')
   .content
   .querySelector('.data-error');
@@ -16,8 +18,6 @@ const templateSucceessSendData = document.querySelector('#success')
 const modalFragment = document.createDocumentFragment();
 const modalError = templateErrorSendData.cloneNode(true);
 const modalSuccess = templateSucceessSendData.cloneNode(true);
-
-const ERROR_MODAL_TIME = 5000;
 
 function getDataErrorMessage() {
   const errorModal = document.createDocumentFragment();

@@ -1,9 +1,9 @@
+const MAX_COMMENT_SHOWN_COUNT = 5;
+
 const commentsList = document.querySelector('.social__comments');
 const commentElementTemplate = commentsList.querySelector('.social__comment');
 
 const commentFragment = document.createDocumentFragment();
-
-const MAX_COMMENT_SHOWN_COUNT = 5;
 
 function createCommentsList(dataElement) {
   const commentsArray = dataElement.comments;
