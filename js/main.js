@@ -1,27 +1,9 @@
-import { renderPictures } from './picture.js';
-import { getData, sendData } from './api.js';
-import { showAlert } from './util.js';
-import { setOnFormSubmit, hideModal } from './form.js';
-import { showSuccessMessage, showErrorMessage } from './message.js';
-import { setOnFilterClick, turnFilterOn, filterPictures } from './filter.js';
+import './form.js';
+import { DATA } from './data.js';
+import { addBigPictureEvent } from './big-picture.js';
+import { filterConfig } from './filter.js';
+import './edit-effect-image.js';
+import './edit-scale-image.js';
 
-const onGetDataSuccess = (data) => {
-  turnFilterOn(data);
-  renderPictures(filterPictures());
-  setOnFilterClick(renderPictures);
-};
-
-const onSendDataSuccess = () => {
-  hideModal();
-  showSuccessMessage();
-};
-
-const onSendDataError = () => {
-  showErrorMessage();
-};
-
-setOnFormSubmit(async (data) => {
-  await sendData(onSendDataSuccess, onSendDataError, data);
-});
-
-getData(onGetDataSuccess, showAlert);
+addBigPictureEvent();
+filterConfig(DATA);
