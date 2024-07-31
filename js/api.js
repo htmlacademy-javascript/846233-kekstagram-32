@@ -1,38 +1,32 @@
-const getData = async (onSuccess, onFail) => {
-  try {
-    const response = await fetch(
-      'https://32.javascript.htmlacademy.pro/kekstagram/data'
-    );
+import { getDataErrorMessage, openErrorSendDataMessage } from './messages.js';
 
-    if (!response.ok) {
-      throw new Error('Не удалось загрузить фотографии');
-    }
+const BASE_URL = 'https://32.javascript.htmlacademy.pro/kekstagram';
 
-    const offers = await response.json();
-    onSuccess(offers);
-  } catch (error) {
-    onFail(error.message);
-  }
+const Route = {
+  GET_DATA: '/data',
+  SEND_DATA: '/',
 };
 
-const sendData = async (onSuccess, onFail, body) => {
-  try {
-    const response = await fetch(
-      'https://32.javascript.htmlacademy.pro/kekstagram',
-      {
-        method: 'POST',
-        body,
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error('Не удалось отправить форму. Попробуйте ещё раз');
-    }
-
-    onSuccess();
-  } catch (error) {
-    onFail(error.message);
-  }
+const Method = {
+  GET: 'GET',
+  POST: 'POST',
 };
 
-export { getData, sendData };
+const load = async(route, method = Method.GET, body = null) => {
+  const response = await fetch(`${BASE_URL}${route}`, {method, body});
+  return response.ok ? await response.json() : getError(method);
+};
+
+function getError(method) {
+  if(method === Method.GET) {
+    return Promise.reject(getDataErrorMessage());
+  } else if(method === Method.POST) {
+    return Promise.reject(openErrorSendDataMessage());
+  }
+}
+
+const getData = async () => await load(Route.GET_DATA);
+
+const sendData = async (body) => await load(Route.SEND_DATA, Method.POST, body);
+
+export {getData, sendData};

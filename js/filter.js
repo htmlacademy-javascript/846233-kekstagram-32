@@ -1,59 +1,74 @@
+import { setPosts } from './create-filter-posts.js';
 import { debounce } from './util.js';
 
-const PICTURES_COUNT = 10;
-const Filter = {
-  DEFAULT: 'filter-default',
-  RANDOM: 'filter-random',
-  DISCUSSED: 'filter-discussed',
+const FILTERS = {
+  default: 'filter-default',
+  random: 'filter-random',
+  discussed: 'filter-discussed'
 };
 
-const filtersElement = document.querySelector('.img-filters');
-
-let currentFilter = '';
+let currentFilter = FILTERS.default;
 let pictures = [];
 
-const randomSort = () => Math.random() - 0.5;
+const filterElement = document.querySelector('.img-filters');
+const ACTIVE_BUTTON_CLASS = 'img-filters__button--active';
 
-const discussedSort = (pictureA, pictureB) =>
-  pictureB.comments.length - pictureA.comments.length;
+const debouncePosts = debounce(setPosts);
 
-const filterPictures = () => {
-  switch (currentFilter) {
-    case Filter.RANDOM:
-      return [...pictures].sort(randomSort).slice(0, PICTURES_COUNT);
-    case Filter.DISCUSSED:
-      return [...pictures].sort(discussedSort);
-    default:
-      return [...pictures];
+function filterConfig(dataArray) {
+  if(dataArray) {
+    filterElement.classList.remove('img-filters--inactive');
+    filterElement.addEventListener('click', onFilterChange);
+    pictures = dataArray;
   }
-};
+}
 
-const turnFilterOn = (loadedPictures) => {
-  filtersElement.classList.remove('img-filters--inactive');
-  pictures = [...loadedPictures];
-  currentFilter = Filter.DEFAULT;
-};
+function onFilterChange(evt) {
+  const targetButton = evt.target;
+  const activeButton = document.querySelector(`.${ACTIVE_BUTTON_CLASS}`);
 
-const setOnFilterClick = (cb) => {
-  const debouncedCallback = debounce(cb);
+  if (!targetButton.matches('button')) {
+    return;
+  }
 
-  filtersElement.addEventListener('click', (evt) => {
-    if (!evt.target.classList.contains('img-filters__button')) {
-      return;
-    }
+  if (activeButton === targetButton) {
+    return;
+  }
 
-    const clickedButton = evt.target;
-    if (clickedButton.id === currentFilter) {
-      return;
-    }
+  activeButton.classList.toggle(ACTIVE_BUTTON_CLASS);
+  targetButton.classList.toggle(ACTIVE_BUTTON_CLASS);
+  currentFilter = targetButton.getAttribute('id');
 
-    filtersElement
-      .querySelector('.img-filters__button--active')
-      .classList.remove('img-filters__button--active');
-    clickedButton.classList.add('img-filters__button--active');
-    currentFilter = clickedButton.id;
-    debouncedCallback(filterPictures());
-  });
-};
+  getCurrentFilter();
+}
 
-export { setOnFilterClick, turnFilterOn, filterPictures };
+function getCurrentFilter() {
+  let filteredPictures = [];
+
+  switch(currentFilter) {
+    case FILTERS.default:
+      filteredPictures = pictures;
+      break;
+
+    case FILTERS.random:
+      filteredPictures = getRandomPictures(pictures);
+      break;
+
+    case FILTERS.discussed:
+      filteredPictures = getDiscussedPictures(pictures);
+      break;
+  }
+
+  debouncePosts(filteredPictures);
+}
+
+function getRandomPictures(picturesArray) {
+  return picturesArray.toSorted(() => 0.5 - Math.random()).slice(0, 10);
+}
+
+function getDiscussedPictures(picturesArray) {
+  return picturesArray.toSorted((a, b) => b.comments.length - a.comments.length);
+}
+
+
+export {filterConfig};
