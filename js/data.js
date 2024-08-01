@@ -12,6 +12,6 @@ async function createData() {
   }
 }
 
-const DATA = await createData();
+const imagesData = await createData();
 
-export { DATA };
+export { imagesData };

@@ -1,4 +1,4 @@
-import { DATA } from './data.js';
+import { imagesData } from './data.js';
 import { createBigPictureHeading } from './big-picture-heading.js';
 import { addLoadMoreCommentsEvent, onLoadMoreCommentsButtonClick } from './load-more-comments.js';
 import { isEscapeKey } from './util.js';
@@ -18,9 +18,9 @@ function onPictureClick(evt) {
   if (currentPicture) {
     evt.preventDefault();
     let currentImage;
-    for (let i = 0; i < DATA.length; i++) {
-      if (DATA[i].id === Number(currentPicture.dataset.pictureId)) {
-        currentImage = DATA[i];
+    for (let i = 0; i < imagesData.length; i++) {
+      if (imagesData[i].id === Number(currentPicture.dataset.pictureId)) {
+        currentImage = imagesData[i];
         break;
       }
     }
@@ -29,7 +29,7 @@ function onPictureClick(evt) {
     const bigPicture = document.querySelector('.big-picture__img img');
     bigPicture.src = currentImage.url;
     bigPicture.dataset.pictureId = currentPicture.dataset.pictureId;
-    createBigPictureHeading(DATA);
+    createBigPictureHeading(imagesData);
     addLoadMoreCommentsEvent();
     closeBigPictureModal.addEventListener('click', onCloseButton);
     document.addEventListener('keydown', onEscKeydown);
