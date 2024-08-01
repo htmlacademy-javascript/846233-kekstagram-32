@@ -11,26 +11,25 @@ function onReduceSizeButtonClick() {
   if (imageScaleInputValue.value === `${MIN_SCALE}%`) {
     imageScaleInputValue.value = `${MIN_SCALE}%`;
     imageScaleInputValue.setAttribute('value', `${MIN_SCALE}%`);
-    previewImage.style.transform = `scale(${imageScaleInputValue.value})`;
+    previewImage.style.transform = `scale(${parseInt(imageScaleInputValue.value, 10) / 100})`;
   } else {
-    const currenValue = parseInt(imageScaleInputValue.value, 10) - SCALE_STEP;
-    imageScaleInputValue.value = `${currenValue}%`;
-    imageScaleInputValue.setAttribute('value', `${currenValue}%`);
-    previewImage.style.transform = `scale(${imageScaleInputValue.value})`;
+    const currentValue = parseInt(imageScaleInputValue.value, 10) - SCALE_STEP;
+    imageScaleInputValue.value = `${currentValue}%`;
+    imageScaleInputValue.setAttribute('value', `${currentValue}%`);
+    previewImage.style.transform = `scale(${parseInt(imageScaleInputValue.value, 10) / 100})`;
   }
 }
-
 
 function onIncreaseSizeButtonClick() {
   if (imageScaleInputValue.value === `${MAX_SCALE}%`) {
     imageScaleInputValue.value = `${MAX_SCALE}%`;
     imageScaleInputValue.setAttribute('value', `${MAX_SCALE}%`);
-    previewImage.style.transform = `scale(${imageScaleInputValue.value})`;
+    previewImage.style.transform = `scale(${parseInt(imageScaleInputValue.value, 10) / 100})`;
   } else {
-    const currenValue = parseInt(imageScaleInputValue.value, 10) + SCALE_STEP;
-    imageScaleInputValue.value = `${currenValue}%`;
-    imageScaleInputValue.setAttribute('value', `${currenValue}%`);
-    previewImage.style.transform = `scale(${imageScaleInputValue.value})`;
+    const currentValue = parseInt(imageScaleInputValue.value, 10) + SCALE_STEP;
+    imageScaleInputValue.value = `${currentValue}%`;
+    imageScaleInputValue.setAttribute('value', `${currentValue}%`);
+    previewImage.style.transform = `scale(${parseInt(imageScaleInputValue.value, 10) / 100})`;
   }
 }
 
@@ -44,4 +43,4 @@ function removeEventOnScaleButton() {
   increaseSizeButton.removeEventListener('click', onIncreaseSizeButtonClick);
 }
 
-export {addEventOnScaleButton, removeEventOnScaleButton};
+export { addEventOnScaleButton, removeEventOnScaleButton };

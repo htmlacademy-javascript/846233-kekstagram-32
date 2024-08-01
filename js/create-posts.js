@@ -4,7 +4,7 @@ const pictureTemplate = document.querySelector('#picture')
   .querySelector('.picture');
 
 function createPostFragments(postsFragments) {
-  if(postsFragments) {
+  if (postsFragments) {
     const postFragment = document.createDocumentFragment();
     postsFragments.forEach(({url, description, likes, comments, id}) => {
       const pictureLink = pictureTemplate.cloneNode(true);
@@ -19,4 +19,4 @@ function createPostFragments(postsFragments) {
   }
 }
 
-export {createPostFragments};
+export { createPostFragments };

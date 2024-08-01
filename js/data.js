@@ -2,7 +2,7 @@ import { getData } from './api.js';
 import { getDataErrorMessage } from './messages.js';
 import { createPostFragments } from './create-posts.js';
 
-const createData = async () => {
+async function createData() {
   try {
     const dataFiles = await getData();
     createPostFragments(dataFiles);
@@ -10,8 +10,8 @@ const createData = async () => {
   } catch {
     getDataErrorMessage();
   }
-};
+}
 
 const DATA = await createData();
 
-export {DATA};
+export { DATA };

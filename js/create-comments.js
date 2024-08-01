@@ -28,14 +28,14 @@ function addComments(commentsArray) {
 function hideComments() {
   const commentsListElements = document.querySelectorAll('.social__comment');
   const commentsShowCount = document.querySelector('.social__comment-shown-count');
-  if(commentsListElements.length <= MAX_COMMENT_SHOWN_COUNT) {
+  if (commentsListElements.length <= MAX_COMMENT_SHOWN_COUNT) {
     commentsShowCount.textContent = commentsListElements.length;
   } else {
     commentsShowCount.textContent = MAX_COMMENT_SHOWN_COUNT;
-    for(let i = MAX_COMMENT_SHOWN_COUNT; commentsListElements.length > i; i++) {
+    for (let i = MAX_COMMENT_SHOWN_COUNT; commentsListElements.length > i; i++) {
       commentsListElements[i].classList.add('hidden');
     }
   }
 }
 
-export {createCommentsList};
+export { createCommentsList };

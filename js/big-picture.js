@@ -3,13 +3,11 @@ import { createBigPictureHeading } from './big-picture-heading.js';
 import { addLoadMoreCommentsEvent, onLoadMoreCommentsButtonClick } from './load-more-comments.js';
 import { isEscapeKey } from './util.js';
 
-
 const bigPictureBlock = document.querySelector('.big-picture');
 const closeBigPictureModal = document.querySelector('.big-picture__cancel');
 const bigPictureModal = document.querySelector('.big-picture');
 const loadMoreCommentsButton = document.querySelector('.social__comments-loader');
 const pictureBlock = document.querySelector('.pictures');
-
 
 function addBigPictureEvent() {
   pictureBlock.addEventListener('click', onPictureClick);
@@ -17,11 +15,11 @@ function addBigPictureEvent() {
 
 function onPictureClick(evt) {
   const currentPicture = evt.target.closest('.picture');
-  if(currentPicture) {
+  if (currentPicture) {
     evt.preventDefault();
     let currentImage;
-    for(let i = 0; DATA.length > i; i++) {
-      if(DATA[i].id === Number(currentPicture.dataset.pictureId)) {
+    for (let i = 0; i < DATA.length; i++) {
+      if (DATA[i].id === Number(currentPicture.dataset.pictureId)) {
         currentImage = DATA[i];
         break;
       }
@@ -38,7 +36,6 @@ function onPictureClick(evt) {
   }
 }
 
-
 function onCloseButton() {
   bigPictureModal.classList.add('hidden');
   document.body.classList.remove('modal-open');
@@ -48,7 +45,7 @@ function onCloseButton() {
 }
 
 function onEscKeydown(evt) {
-  if(isEscapeKey(evt)){
+  if (isEscapeKey(evt)) {
     evt.preventDefault();
     bigPictureModal.classList.add('hidden');
     document.body.classList.remove('modal-open');
@@ -58,4 +55,4 @@ function onEscKeydown(evt) {
   }
 }
 
-export {addBigPictureEvent};
+export { addBigPictureEvent };

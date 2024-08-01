@@ -34,7 +34,6 @@ function applyingEffects(target) {
 
     case effectChrome:
       sliderContainer.classList.remove('hidden');
-
       slider.noUiSlider.updateOptions({
         range: {
           min: 0,
@@ -43,7 +42,6 @@ function applyingEffects(target) {
         start: 1,
         step: 0.1,
       });
-
       slider.noUiSlider.on('update', () => {
         const value = Number(slider.noUiSlider.get());
         mainPicture.style.filter = `grayscale(${value})`;
@@ -53,7 +51,6 @@ function applyingEffects(target) {
 
     case effectSepia:
       sliderContainer.classList.remove('hidden');
-
       slider.noUiSlider.updateOptions({
         range: {
           min: 0,
@@ -62,7 +59,6 @@ function applyingEffects(target) {
         start: 1,
         step: 0.1,
       });
-
       slider.noUiSlider.on('update', () => {
         const value = Number(slider.noUiSlider.get());
         mainPicture.style.filter = `sepia(${value})`;
@@ -72,7 +68,6 @@ function applyingEffects(target) {
 
     case effectMarvin:
       sliderContainer.classList.remove('hidden');
-
       slider.noUiSlider.updateOptions({
         range: {
           min: 0,
@@ -81,7 +76,6 @@ function applyingEffects(target) {
         start: 100,
         step: 1,
       });
-
       slider.noUiSlider.on('update', () => {
         const value = Number(slider.noUiSlider.get());
         mainPicture.style.filter = `invert(${value}%)`;
@@ -91,7 +85,6 @@ function applyingEffects(target) {
 
     case effectPhobos:
       sliderContainer.classList.remove('hidden');
-
       slider.noUiSlider.updateOptions({
         range: {
           min: 0,
@@ -100,7 +93,6 @@ function applyingEffects(target) {
         start: 3,
         step: 0.1,
       });
-
       slider.noUiSlider.on('update', () => {
         const value = Number(slider.noUiSlider.get());
         mainPicture.style.filter = `blur(${value}px)`;
@@ -110,7 +102,6 @@ function applyingEffects(target) {
 
     case effectHeat:
       sliderContainer.classList.remove('hidden');
-
       slider.noUiSlider.updateOptions({
         range: {
           min: 1,
@@ -119,7 +110,6 @@ function applyingEffects(target) {
         start: 3,
         step: 0.1,
       });
-
       slider.noUiSlider.on('update', () => {
         const value = Number(slider.noUiSlider.get());
         mainPicture.style.filter = `brightness(${value})`;
@@ -140,7 +130,6 @@ function addOnEffectButtonEvent() {
     effectsItem.addEventListener('click', onEffectButtonClick);
   });
 }
-
 
 function removeOnEffectButtonEvent() {
   listEffects.forEach((effectsItem) => {

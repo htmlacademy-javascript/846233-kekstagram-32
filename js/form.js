@@ -144,3 +144,4 @@ function addEventOnImageUploadButtonClick() {
 addEventOnImageUploadButtonClick();
 
 export { addEventOnImageUploadButtonClick, onEscKeydown };
+
