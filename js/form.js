@@ -21,7 +21,7 @@ const usersImagePreviews = usersImagesUploadForm.querySelector('.img-upload__pre
 const scaleImageValue = usersImagesUploadForm.querySelector('.scale__control--value');
 const closeFormButton = usersImagesUploadForm.querySelector('.img-upload__cancel');
 
-function onSubmitForm(evt) {
+function onFormSubmit(evt) {
   evt.preventDefault();
 
   const isHashtagsInputValid = pristine.validate(hashtagsInput);
@@ -35,8 +35,8 @@ function onSubmitForm(evt) {
         imageUploadBlock.classList.add('hidden');
         document.body.classList.remove('modal-open');
         document.removeEventListener('keydown', onEscKeydown);
-        usersImagesUploadForm.removeEventListener('submit', onSubmitForm);
-        closeFormButton.removeEventListener('click', onFromCloseButton);
+        usersImagesUploadForm.removeEventListener('submit', onFormSubmit);
+        closeFormButton.removeEventListener('click', onCloseFormButtonClick);
         imageUploadButton.value = '';
         pristine.reset(hashtagsInput);
         removeEventOnScaleButton();
@@ -53,25 +53,25 @@ function onSubmitForm(evt) {
   }
 }
 
-function onImageUploadButton() {
+function onImageUploadButtonClick() {
   loadUsersImage();
   addEventOnScaleButton();
   imageUploadBlock.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onEscKeydown);
-  usersImagesUploadForm.addEventListener('submit', onSubmitForm);
-  closeFormButton.addEventListener('click', onFromCloseButton);
+  usersImagesUploadForm.addEventListener('submit', onFormSubmit);
+  closeFormButton.addEventListener('click', onCloseFormButtonClick);
   addOnEffectButtonEvent();
 }
 
-function onFromCloseButton() {
+function onCloseFormButtonClick() {
   formReset();
   removeEventOnScaleButton();
   imageUploadBlock.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEscKeydown);
-  usersImagesUploadForm.removeEventListener('submit', onSubmitForm);
-  closeFormButton.removeEventListener('click', onFromCloseButton);
+  usersImagesUploadForm.removeEventListener('submit', onFormSubmit);
+  closeFormButton.removeEventListener('click', onCloseFormButtonClick);
   removeOnEffectButtonEvent();
   imageUploadButton.value = '';
   pristine.reset(hashtagsInput);
@@ -102,8 +102,8 @@ function onEscKeydown(evt) {
     imageUploadBlock.classList.add('hidden');
     document.body.classList.remove('modal-open');
     document.removeEventListener('keydown', onEscKeydown);
-    usersImagesUploadForm.removeEventListener('submit', onSubmitForm);
-    closeFormButton.removeEventListener('click', onFromCloseButton);
+    usersImagesUploadForm.removeEventListener('submit', onFormSubmit);
+    closeFormButton.removeEventListener('click', onCloseFormButtonClick);
     removeOnEffectButtonEvent();
     imageUploadButton.value = '';
   }
@@ -137,10 +137,10 @@ function unlockSubmitButton() {
   submitButton.textContent = 'Опубликовать';
 }
 
-function addEventOnImageUploadButton() {
-  imageUploadButton.addEventListener('change', onImageUploadButton);
+function addEventOnImageUploadButtonClick() {
+  imageUploadButton.addEventListener('change', onImageUploadButtonClick);
 }
 
-addEventOnImageUploadButton();
+addEventOnImageUploadButtonClick();
 
-export { addEventOnImageUploadButton, onEscKeydown };
+export { addEventOnImageUploadButtonClick, onEscKeydown };

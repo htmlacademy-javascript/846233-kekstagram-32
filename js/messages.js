@@ -36,8 +36,8 @@ function openErrorSendDataMessage() {
   document.body.appendChild(modalFragment);
   const modalButton = document.querySelector('.error__button');
   document.removeEventListener('keydown', onEscKeydown);
-  document.addEventListener('keydown', onEscKeydownError);
-  modalButton.addEventListener('click', onErrorSendDataButton);
+  document.addEventListener('keydown', onErrorEscKeydown);
+  modalButton.addEventListener('click', onErrorSendDataButtonClick);
   document.addEventListener('click', onWindowClick);
 }
 
@@ -45,41 +45,41 @@ function openSuccessSendDataMessage() {
   modalFragment.appendChild(modalSuccess);
   document.body.appendChild(modalFragment);
   const modalButton = document.querySelector('.success__button');
-  modalButton.addEventListener('click', onSuccessSendDataButton);
-  document.addEventListener('keydown', onEscKeydownSuccess);
+  modalButton.addEventListener('click', onSuccessSendDataButtonClick);
+  document.addEventListener('keydown', onSuccessEscKeydown);
   document.addEventListener('click', onWindowClick);
 }
 
-function onErrorSendDataButton() {
+function onErrorSendDataButtonClick() {
   const errorModal = document.querySelector('.error');
-  errorModal.querySelector('.error__button').removeEventListener('click', onErrorSendDataButton);
-  document.removeEventListener('keydown', onEscKeydownError);
+  errorModal.querySelector('.error__button').removeEventListener('click', onErrorSendDataButtonClick);
+  document.removeEventListener('keydown', onErrorEscKeydown);
   document.addEventListener('keydown', onEscKeydown);
   errorModal.remove();
 }
 
 
-function onSuccessSendDataButton() {
+function onSuccessSendDataButtonClick() {
   const successModal = document.querySelector('.success');
-  successModal.querySelector('.success__button').removeEventListener('click', onSuccessSendDataButton);
-  document.removeEventListener('keydown', onEscKeydownSuccess);
+  successModal.querySelector('.success__button').removeEventListener('click', onSuccessSendDataButtonClick);
+  document.removeEventListener('keydown', onSuccessEscKeydown);
   successModal.remove();
 }
 
-function onEscKeydownSuccess(evt) {
+function onSuccessEscKeydown(evt) {
   if(isEscapeKey(evt)){
     const successModal = document.querySelector('.success');
-    successModal.querySelector('.success__button').removeEventListener('click', onSuccessSendDataButton);
-    document.removeEventListener('keydown', onEscKeydownSuccess);
+    successModal.querySelector('.success__button').removeEventListener('click', onSuccessSendDataButtonClick);
+    document.removeEventListener('keydown', onSuccessEscKeydown);
     successModal.remove();
   }
 }
 
-function onEscKeydownError(evt) {
+function onErrorEscKeydown(evt) {
   if(isEscapeKey(evt)) {
     const errorModal = document.querySelector('.error');
-    errorModal.querySelector('.error__button').removeEventListener('click', onErrorSendDataButton);
-    document.removeEventListener('keydown', onEscKeydownError);
+    errorModal.querySelector('.error__button').removeEventListener('click', onErrorSendDataButtonClick);
+    document.removeEventListener('keydown', onErrorEscKeydown);
     document.addEventListener('keydown', onEscKeydown);
     errorModal.remove();
   }
@@ -89,15 +89,15 @@ function onWindowClick(evt) {
   const currentTarget = evt.target;
   if(currentTarget.classList.contains('success') && !currentTarget.classList.contains('success__inner')) {
     const successModal = document.querySelector('.success');
-    successModal.querySelector('.success__button').removeEventListener('click', onSuccessSendDataButton);
-    document.removeEventListener('keydown', onEscKeydownSuccess);
+    successModal.querySelector('.success__button').removeEventListener('click', onSuccessSendDataButtonClick);
+    document.removeEventListener('keydown', onSuccessEscKeydown);
     document.removeEventListener('click', onWindowClick);
     successModal.remove();
   }
   if(currentTarget.classList.contains('error') && !currentTarget.classList.contains('error__inner')) {
     const errorModal = document.querySelector('.error');
-    errorModal.querySelector('.error__button').removeEventListener('click', onErrorSendDataButton);
-    document.removeEventListener('keydown', onEscKeydownError);
+    errorModal.querySelector('.error__button').removeEventListener('click', onErrorSendDataButtonClick);
+    document.removeEventListener('keydown', onErrorEscKeydown);
     document.addEventListener('keydown', onEscKeydown);
     document.removeEventListener('click', onWindowClick);
     errorModal.remove();

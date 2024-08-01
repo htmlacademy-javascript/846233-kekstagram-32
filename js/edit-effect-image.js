@@ -129,7 +129,7 @@ function applyingEffects(target) {
   }
 }
 
-function onEffectButton(evt) {
+function onEffectButtonClick(evt) {
   if (evt.target.tagName === 'INPUT') {
     applyingEffects(evt.target);
   }
@@ -137,14 +137,14 @@ function onEffectButton(evt) {
 
 function addOnEffectButtonEvent() {
   listEffects.forEach((effectsItem) => {
-    effectsItem.addEventListener('click', onEffectButton);
+    effectsItem.addEventListener('click', onEffectButtonClick);
   });
 }
 
 
 function removeOnEffectButtonEvent() {
   listEffects.forEach((effectsItem) => {
-    effectsItem.removeEventListener('click', onEffectButton);
+    effectsItem.removeEventListener('click', onEffectButtonClick);
   });
 }
 

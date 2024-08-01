@@ -2,12 +2,12 @@ const SCALE_STEP = 25;
 const MIN_SCALE = 25;
 const MAX_SCALE = 100;
 
-const reducSizeButton = document.querySelector('.scale__control--smaller');
+const reduceSizeButton = document.querySelector('.scale__control--smaller');
 const increaseSizeButton = document.querySelector('.scale__control--bigger');
 const imageScaleInputValue = document.querySelector('input.scale__control--value');
 const previewImage = document.querySelector('.img-upload__preview img');
 
-function onReducSizeButton() {
+function onReduceSizeButtonClick() {
   if (imageScaleInputValue.value === `${MIN_SCALE}%`) {
     imageScaleInputValue.value = `${MIN_SCALE}%`;
     imageScaleInputValue.setAttribute('value', `${MIN_SCALE}%`);
@@ -21,7 +21,7 @@ function onReducSizeButton() {
 }
 
 
-function onIncreaseSizeButton() {
+function onIncreaseSizeButtonClick() {
   if (imageScaleInputValue.value === `${MAX_SCALE}%`) {
     imageScaleInputValue.value = `${MAX_SCALE}%`;
     imageScaleInputValue.setAttribute('value', `${MAX_SCALE}%`);
@@ -35,13 +35,13 @@ function onIncreaseSizeButton() {
 }
 
 function addEventOnScaleButton() {
-  reducSizeButton.addEventListener('click', onReducSizeButton);
-  increaseSizeButton.addEventListener('click', onIncreaseSizeButton);
+  reduceSizeButton.addEventListener('click', onReduceSizeButtonClick);
+  increaseSizeButton.addEventListener('click', onIncreaseSizeButtonClick);
 }
 
 function removeEventOnScaleButton() {
-  reducSizeButton.removeEventListener('click', onReducSizeButton);
-  increaseSizeButton.removeEventListener('click', onIncreaseSizeButton);
+  reduceSizeButton.removeEventListener('click', onReduceSizeButtonClick);
+  increaseSizeButton.removeEventListener('click', onIncreaseSizeButtonClick);
 }
 
 export {addEventOnScaleButton, removeEventOnScaleButton};
