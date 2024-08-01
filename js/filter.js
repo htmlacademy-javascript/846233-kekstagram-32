@@ -1,12 +1,13 @@
 import { setPosts } from './create-filter-posts.js';
 import { debounce } from './util.js';
 
+const ACTIVE_BUTTON_CLASS = 'img-filters__button--active';
 const FILTERS = {
   default: 'filter-default',
   random: 'filter-random',
   discussed: 'filter-discussed'
 };
-const ACTIVE_BUTTON_CLASS = 'img-filters__button--active';
+
 const filterElement = document.querySelector('.img-filters');
 
 const debouncePosts = debounce(setPosts);

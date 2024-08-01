@@ -2,6 +2,8 @@ import { getData } from './api.js';
 import { getDataErrorMessage } from './messages.js';
 import { createPostFragments } from './create-posts.js';
 
+const imagesData = await createData();
+
 async function createData() {
   try {
     const dataFiles = await getData();
@@ -11,7 +13,5 @@ async function createData() {
     getDataErrorMessage();
   }
 }
-
-const imagesData = await createData();
 
 export { imagesData };
