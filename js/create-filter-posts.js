@@ -3,7 +3,9 @@ import { createPostFragments } from './create-posts.js';
 const picturesBlock = document.querySelector('.pictures');
 
 function clearPosts() {
-  picturesBlock.querySelectorAll('.picture').forEach((item) => item.remove());
+  picturesBlock.querySelectorAll('.picture').forEach((item) => {
+    item.remove();
+  });
 }
 
 function setPosts(dataArray) {

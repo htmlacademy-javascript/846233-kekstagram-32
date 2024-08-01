@@ -12,21 +12,25 @@ const Method = {
   POST: 'POST',
 };
 
-const load = async(route, method = Method.GET, body = null) => {
-  const response = await fetch(`${BASE_URL}${route}`, {method, body});
+async function load(route, method = Method.GET, body = null) {
+  const response = await fetch(`${BASE_URL}${route}`, { method, body });
   return response.ok ? await response.json() : getError(method);
-};
+}
 
 function getError(method) {
-  if(method === Method.GET) {
+  if (method === Method.GET) {
     return Promise.reject(getDataErrorMessage());
-  } else if(method === Method.POST) {
+  } else if (method === Method.POST) {
     return Promise.reject(openErrorSendDataMessage());
   }
 }
 
-const getData = async () => await load(Route.GET_DATA);
+async function getData() {
+  return await load(Route.GET_DATA);
+}
 
-const sendData = async (body) => await load(Route.SEND_DATA, Method.POST, body);
+async function sendData(body) {
+  return await load(Route.SEND_DATA, Method.POST, body);
+}
 
-export {getData, sendData};
+export { getData, sendData };

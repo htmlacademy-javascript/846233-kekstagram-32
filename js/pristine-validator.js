@@ -1,19 +1,17 @@
-const imageUploadForm = document.querySelector('.img-upload__form');
-const hashtagsInput = imageUploadForm.querySelector('.text__hashtags');
-const descriptionInput = imageUploadForm.querySelector('.text__description');
-
 const MAX_DESCRIPTION_LENGTH = 140;
-const DESCRIPTION_ERROR_MESSAGE = 'Должно быть не более 140 символов';
-
 const MAX_HASHTAGS = 5;
+const REGEXP = /^#[a-zа-яё0-9]{1,19}$/i;
+
+const DESCRIPTION_ERROR_MESSAGE = 'Должно быть не более 140 символов';
 const ERROR_HASHTAGS_MESSAGES = [
   `Не более ${MAX_HASHTAGS} хештегов`,
-  'Не правильно введен хештег ',
+  'Неправильно введен хештег',
   'Хештеги не должны повторяться',
 ];
 
-const REGEXP = /^#[a-zа-яё0-9]{1,19}$/i;
-
+const imageUploadForm = document.querySelector('.img-upload__form');
+const hashtagsInput = imageUploadForm.querySelector('.text__hashtags');
+const descriptionInput = imageUploadForm.querySelector('.text__description');
 
 const pristine = new Pristine(imageUploadForm, {
   classTo: 'img-upload__field-wrapper',
@@ -24,8 +22,7 @@ const pristine = new Pristine(imageUploadForm, {
 });
 
 function isDescriptionValidate(inputValue) {
-  const result = inputValue.length <= MAX_DESCRIPTION_LENGTH;
-  return result;
+  return inputValue.length <= MAX_DESCRIPTION_LENGTH;
 }
 
 function isHashtagValidate(inputValue) {
@@ -37,15 +34,13 @@ function isHashtagValidate(inputValue) {
   const HASHTAGS = getHashtagsArray(inputValue);
   isValidate.length = checkHashtagsLength(HASHTAGS);
   isValidate.regular = checkValidateByRegular(HASHTAGS);
-  isValidate.repeated = checkRepeatHeshtags(HASHTAGS);
-  const result = getValidateResult(isValidate);
-  return result;
+  isValidate.repeated = checkRepeatHashtags(HASHTAGS);
+  return getValidateResult(isValidate);
 }
 
 function createErrorMessage(inputValue) {
-  let result = true;
-  if(inputValue.length === 0){
-    return result;
+  if (inputValue.length === 0) {
+    return true;
   }
 
   const isValidate = {
@@ -56,68 +51,43 @@ function createErrorMessage(inputValue) {
   const HASHTAGS = getHashtagsArray(inputValue);
   isValidate.length = checkHashtagsLength(HASHTAGS);
   isValidate.regular = checkValidateByRegular(HASHTAGS);
-  isValidate.repeated = checkRepeatHeshtags(HASHTAGS);
-  result = getErrorMessage(isValidate);
-  return result;
+  isValidate.repeated = checkRepeatHashtags(HASHTAGS);
+  return getErrorMessage(isValidate);
 }
 
 function checkHashtagsLength(hashtags) {
   return MAX_HASHTAGS >= hashtags.length;
 }
 
-function checkRepeatHeshtags(hashtags) {
-  const duplicates = hashtags.filter((e, i, a) => a.indexOf(e) !== i);
-  return !duplicates.length;
+function checkRepeatHashtags(hashtags) {
+  const lowercasedHashtags = hashtags.map((hashtag) => hashtag.toLowerCase());
+  const uniqueHashtags = new Set(lowercasedHashtags);
+  return uniqueHashtags.size === hashtags.length;
 }
 
 function checkValidateByRegular(hashtags) {
-  let result = true;
-  if(hashtags.length === 0) {
-    return result;
-  }
-  result = hashtags.every((hashtag) => {
-    if(!REGEXP.test(hashtag)) {
-      return false;
-    } else {
-      return true;
-    }
-  });
-  return result;
+  return hashtags.every((hashtag) => REGEXP.test(hashtag));
 }
 
-
 function getValidateResult(validateObject) {
-  let result = true;
-  const keysValue = Object.values(validateObject);
-  for(let i = 0; keysValue.length > i; i++) {
-    if(keysValue[i] === false) {
-      result = false;
-      return result;
-    }
-  }
-  return result;
+  return Object.values(validateObject).every((value) => value);
 }
 
 function getHashtagsArray(hashtags) {
-  const hashtagsArray = hashtags.toLowerCase().trim().split(' ');
-  const result = hashtagsArray.filter((hashtag) => hashtag !== '');
-  return result;
+  return hashtags.toLowerCase().trim().split(/\s+/).filter((hashtag) => hashtag.length > 0);
 }
 
 function getErrorMessage(validateObject) {
-  let result = true;
   const keysValue = Object.values(validateObject);
-  for (let i = 0; keysValue.length > i; i++){
-    if(keysValue[i] === false){
-      result = ERROR_HASHTAGS_MESSAGES[i];
-      return result;
+  for (let i = 0; i < keysValue.length; i++) {
+    if (keysValue[i] === false) {
+      return ERROR_HASHTAGS_MESSAGES[i];
     }
   }
-  return result;
+  return true;
 }
-
 
 pristine.addValidator(hashtagsInput, isHashtagValidate, createErrorMessage);
 pristine.addValidator(descriptionInput, isDescriptionValidate, DESCRIPTION_ERROR_MESSAGE);
 
-export {pristine};
+export { pristine };
